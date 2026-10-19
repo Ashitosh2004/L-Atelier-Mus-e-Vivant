@@ -1,0 +1,252 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* ---- L'Atelier palette ---- */
+  --color-ink: #131009;
+  --color-ink-soft: #1d1912;
+  --color-ink-line: #2e2818;
+  --color-parchment: #f2ecdf;
+  --color-parchment-deep: #e7dfcc;
+  --color-parchment-line: #d8cfb8;
+  --color-terra: #b4502a;
+  --color-terra-deep: #8e3d1e;
+  --color-gold: #b08d57;
+  --color-gold-soft: #d4b483;
+  --color-fog: #8f8677;
+
+  /* ---- Fonts ---- */
+  --font-display: "Playfair Display", "Georgia", "Times New Roman", serif;
+  --font-accent: "Cormorant Garamond", "Georgia", serif;
+  --font-sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
+
+  /* ---- Keyframes ---- */
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-slow: marquee 55s linear infinite;
+  --animate-spin-slow: spin-slow 18s linear infinite;
+  --animate-grain: grain 8s steps(10) infinite;
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes grain {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    10% {
+      transform: translate(-5%, -10%);
+    }
+    20% {
+      transform: translate(-15%, 5%);
+    }
+    30% {
+      transform: translate(7%, -25%);
+    }
+    40% {
+      transform: translate(-5%, 25%);
+    }
+    50% {
+      transform: translate(-15%, 10%);
+    }
+    60% {
+      transform: translate(15%, 0%);
+    }
+    70% {
+      transform: translate(0%, 15%);
+    }
+    80% {
+      transform: translate(3%, 35%);
+    }
+    90% {
+      transform: translate(-10%, 10%);
+    }
+  }
+}
+
+/* keep shadcn variables for ui components */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0rem;
+  --background: #131009;
+  --foreground: #f2ecdf;
+  --card: #1d1912;
+  --card-foreground: #f2ecdf;
+  --popover: #1d1912;
+  --popover-foreground: #f2ecdf;
+  --primary: #b4502a;
+  --primary-foreground: #f2ecdf;
+  --secondary: #2e2818;
+  --secondary-foreground: #f2ecdf;
+  --muted: #2e2818;
+  --muted-foreground: #8f8677;
+  --accent: #b08d57;
+  --accent-foreground: #131009;
+  --destructive: #8e3d1e;
+  --border: #2e2818;
+  --input: #2e2818;
+  --ring: #b08d57;
+}
+
+html {
+  scroll-behavior: auto; /* lenis handles smoothing */
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-parchment);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-terra);
+  color: var(--color-parchment);
+}
+
+/* ---- Custom scrollbar ---- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #131009;
+}
+::-webkit-scrollbar-thumb {
+  background: #3d3421;
+  border: 2px solid #131009;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
+
+/* ---- Outlined display text (for dark backgrounds) ---- */
+.text-outline {
+  -webkit-text-stroke: 1.5px rgba(242, 236, 223, 0.4);
+  color: transparent;
+}
+
+/* ---- Vertical writing ---- */
+.writing-vertical {
+  writing-mode: vertical-rl;
+}
+
+/* ---- Mobile-only hero collage: only when the phone is tall enough ---- */
+.hero-mobile-art {
+  display: none;
+}
+@media (max-width: 767px) and (min-height: 700px) {
+  .hero-mobile-art {
+    display: flex;
+  }
+}
+
+/* ---- Vintage photo treatment ---- */
+.vintage-sepia {
+  filter: sepia(0.35) saturate(0.82) contrast(1.02) brightness(0.98);
+  transition: filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .vintage-sepia,
+.vintage-sepia:hover {
+  filter: sepia(0) saturate(1.05) contrast(1.03);
+}
+
+/* ---- Cursor ---- */
+@media (pointer: fine) {
+  .cursor-none-desktop,
+  .cursor-none-desktop * {
+    cursor: none !important;
+  }
+}
+
+/* ---- Masonry ---- */
+.masonry {
+  columns: 1;
+  column-gap: 1.5rem;
+}
+@media (min-width: 640px) {
+  .masonry {
+    columns: 2;
+  }
+}
+@media (min-width: 1024px) {
+  .masonry {
+    columns: 3;
+  }
+}
+@media (min-width: 1400px) {
+  .masonry {
+    columns: 4;
+  }
+}
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

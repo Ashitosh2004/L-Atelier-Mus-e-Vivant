@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// A real museum reservation: date + entry slot + tickets + visitor details.
+// Availability is derived live from confirmed bookings per (date, slot).
+model Booking {
+  id        String   @id @default(cuid())
+  reference String   @unique // e.g. ATL-7K2Q9D
+  date      String // YYYY-MM-DD (museum local date)
+  slot      String // "09:00" … "21:00" entry hour
+  name      String
+  email     String
+  phone     String?
+  adults    Int      @default(0)
+  seniors   Int      @default(0)
+  under26   Int      @default(0)
+  children  Int      @default(0)
+  total     Int // total price in whole euros
+  visitors  Int // total headcount
+  status    String   @default("CONFIRMED") // CONFIRMED | CANCELLED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date, slot, status])
+}
